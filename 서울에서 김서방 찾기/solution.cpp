@@ -2,16 +2,13 @@
 
 #include <string>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
 string solution(vector<string> seoul) {
-    string answer = "";
-    for(size_t i = 0; i < seoul.size(); ++i){
-        if(!seoul[i].compare("Kim")) {
-            answer = "김서방은 " + to_string(i) + "에 있다";
-            break;
-        }
-    }
-    return answer;
+	auto it = find(seoul.cbegin(), seoul.cend(), "Kim");
+	int idx = distance(seoul.cbegin(), it);
+	string answer = "김서방은 " + to_string(idx) + "에 있다";
+	return answer;
 }
