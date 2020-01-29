@@ -4,17 +4,14 @@
 #include <vector>
 #include <cmath>
 #include <numeric>
+#include <unordered_map>
 
 using namespace std;
 
-int GetPower(char ch) {
-    int power = 1;  // 'S'
-    if (ch == 'D') power = 2;
-    else if (ch == 'T') power = 3;
-    return power;
-}
-
 int solution(string dartResult) {
+    unordered_map<char,int> powers({{'S', 1}, {'D', 2}, {'T', 3}});
+    unordered_map<char,int> options({{'#', -1}, {'*', 2}});
+
     vector<int> scores(3, 0);
     for (size_t i = 0, j = 0; i < dartResult.size(); ++i, ++j) {
         string strNum = "";
@@ -23,16 +20,14 @@ int solution(string dartResult) {
             ++i;
         }
         scores[j] = atoi(strNum.c_str());
-        scores[j] = pow(scores[j], GetPower(dartResult[i]));
+        scores[j] = pow(scores[j], powers[dartResult[i]]);
 
-        if(i + 1 < dartResult.size() && !isdigit(dartResult[i + 1])) {
+        if (i + 1 < dartResult.size() && !isdigit(dartResult[i + 1])) {
             ++i;
-            int option = -1; // default '#'
-            if(dartResult[i] == '*') {
-                option = 2;
-                if (j > 0) scores[j - 1] *= option;
-            }            
-            scores[j] *= option;
+            int option = options[dartResult[i]];
+            scores[j] *= option;       
+            if (option == options['*'] && j > 0)
+                scores[j - 1] *= option;
         }
     }
 
