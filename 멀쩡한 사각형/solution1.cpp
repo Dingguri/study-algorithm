@@ -20,7 +20,7 @@ long long solution(int w,int h)
 { 
     int gcd = GCD(w, h);
 	long long answer = (long long)w * h;
-    answer -= ((w + h) / gcd - 1) * gcd;
+    answer -= (w + h) - gcd;    // = (w/gcd + h/gcd - 1) * gcd
 
 	return answer;
 }
